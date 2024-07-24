@@ -43,11 +43,11 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def __init__(self, player_img, player_x, player_y, player_speed):
         super().__init__(player_img, player_x, player_y, player_speed)
-    def update(self):
+    def update(self, down, up, stop_value=50):
         keys_pressed = key.get_pressed()
-        if keys_pressed[K_w] and self.rect.y > 0:
+        if keys_pressed[up] and self.rect.y > 0:
             self.rect.y -= speed
-        if keys_pressed[K_s] and self.rect.y < 435:
+        if keys_pressed[down] and self.rect.y < 435:
             self.rect.y += speed
 
 cat1 = Player('nyancat.png', x1, y1 speed1)
