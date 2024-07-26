@@ -61,8 +61,6 @@ class Ball(GameSprite):
     def update(self, stop_value=50):
         if self.rect.y > WIN_H - 50 or self.rect.y < 0:
             self.speed_y *= -1
-        if self.rect.x > WIN_W - 50 or self.rect.x < 0:
-            self.speed_x *= -1
         self.rect.x += self.speed_x
         self.rect.y += self.speed_y
 
@@ -71,27 +69,32 @@ cat2 = Player('nyancat2.png', x2, y2, speed)
 ball = Ball('kapusta.png', x3, y3, speed)
 
 #Цикл
-#font = font.SysFont('Arial', 70)
+font.init()
+font = font.SysFont('Arial', 70)
+lose1 = font.render('Player 1 LOSE', True, (255, 215, 0))
+lose2 = font.render('Player 2 LOSE', True, (255, 215, 0))
 finish = False
 game = True
 while game:
-    window.blit(background, (0, 0))
-    ball.reset()
-    ball.update()
-    cat1.reset()
-    cat1.update(K_w, K_s, 275)
-    cat2.reset()
-    cat2.update(K_UP, K_DOWN, 275)
-    if sprite.collide_rect(cat1, ball):
-        ball.speed_x *= -1 
-    if sprite.collide_rect(cat2, ball):
-        ball.speed_x *= -1 
+    if not finish:
+        window.blit(background, (0, 0))
+        ball.reset()
+        ball.update()
+        cat1.reset()
+        cat1.update(K_w, K_s, 150)
+        cat2.reset()
+        cat2.update(K_UP, K_DOWN, 150)
+        if sprite.collide_rect(cat1, ball):
+            ball.speed_x *= -1 
+        if sprite.collide_rect(cat2, ball):
+            ball.speed_x *= -1
+        if ball.rect.x > WIN_W - 50:
+            window.blit(lose2, (150, 210))
+            finish = True
+        if ball.rect.x < 0:
+            window.blit(lose1, (150, 210))
+            finish = True
+        display.update()
     for e in event.get():
         if e.type == QUIT:
             game = False
-        
-
-                
-                
-
-    display.update()
