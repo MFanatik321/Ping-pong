@@ -25,7 +25,7 @@ y3 = 250
 
 speed1 = 1
 speed2 = 1
-speed2 = 1
+speed3 = 1
 
 
 class GameSprite(sprite.Sprite):
@@ -43,13 +43,28 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def __init__(self, player_img, player_x, player_y, player_speed):
         super().__init__(player_img, player_x, player_y, player_speed)
-    def update(self, down, up, stop_value=50):
+        self.image = transform.scale(image.load(player_img), (95, 355))
+    def update(self):
         keys_pressed = key.get_pressed()
-        if keys_pressed[up] and self.rect.y > 0:
-            self.rect.y -= speed
-        if keys_pressed[down] and self.rect.y < 435:
-            self.rect.y += speed
+        if keys_pressed[K_w] and self.rect.y > 0:
+            self.rect.y -= speed1
+        if keys_pressed[K_s] and self.rect.y < 435:
+            self.rect.y += speed1
 
-cat1 = Player('nyancat.png', x1, y1 speed1)
-cat2 = Player('nyancat2.png', x2, y2 speed2)
+cat1 = Player('nyancat.png', x1, y1, speed1)
+cat2 = Player('nyancat2.png', x2, y2, speed2)
 ball = GameSprite('kapusta.png', x3, y3, speed3)
+
+game = True
+while game:
+    window.blit(background, (0, 0))
+    ball.reset()
+    cat1.reset()
+    cat1.update()
+    cat2.reset()
+    cat2.update()
+    for e in event.get():
+        if e.type == QUIT:
+            game = False
+
+display.update()
